@@ -525,6 +525,16 @@ function() {
       resultNode.innerHTML = result.value;
       result.value = mergeStreams(originalStream, nodeStream(resultNode), text);
     }
+
+    if (options.lineNodes) {
+      var resultPre = document.createElement('pre');
+      resultPre.innerHTML = result.value;
+      var linesPre = document.createElement('pre');
+      var lines = escape(text.trimRight()).replace(/^.*?(\n|$)/gm, '<span class="line">$&</span>');
+      linesPre.innerHTML = lines;
+      result.value = mergeStreams(nodeStream(linesPre), nodeStream(resultPre), text);
+    }
+
     result.value = fixMarkup(result.value);
 
     block.innerHTML = result.value;
@@ -544,6 +554,7 @@ function() {
   var options = {
     classPrefix: 'hljs-',
     tabReplace: null,
+    lineNodes: false,
     useBR: false,
     languages: undefined
   };
